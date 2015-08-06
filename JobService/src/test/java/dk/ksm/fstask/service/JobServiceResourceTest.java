@@ -39,7 +39,7 @@ public class JobServiceResourceTest {
 
         // assert
         Assert.assertNotNull(response);
-        Assert.assertEquals(201, response.getStatus());
+        Assert.assertEquals(Response.Status.CREATED, response.getStatus());
     }
 
     @Test

@@ -28,6 +28,6 @@ public class JobServiceResource {
     @POST
     public Response addJob(Job job) {
         jobQueue.addJob(job);
-        return Response.status(201).entity("job added").build();
+        return Response.status(Response.Status.CREATED).entity("job added").build();
     }
 }
