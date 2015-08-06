@@ -1,13 +1,15 @@
 package dk.ksm.fstask.service;
 
 
+import dk.ksm.fstask.queue.IQueue;
+import dk.ksm.fstask.queue.QueueFactory;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 
 public class JobService extends Application<JobServiceConfiguration> {
 
     public static void main(String[] args) throws Exception {
-        new JobService().run(new String[]{"server"});
+        new JobService().run(args);
     }
 
     @Override
@@ -16,10 +18,12 @@ public class JobService extends Application<JobServiceConfiguration> {
     }
 
     @Override
-    public void run(JobServiceConfiguration jobServiceConfiguration
+    public void run(JobServiceConfiguration conf
             , Environment environment) throws Exception {
 
-        final JobServiceResource jobServiceResource = new JobServiceResource();
+        String queueType = conf.getQueueType();
+        IQueue queue = QueueFactory.getQueue(queueType);
+        final JobServiceResource jobServiceResource = new JobServiceResource(queue);
         environment.jersey().register(jobServiceResource);
     }
 }

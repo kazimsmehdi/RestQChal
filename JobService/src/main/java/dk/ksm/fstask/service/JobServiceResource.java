@@ -1,33 +1,33 @@
 package dk.ksm.fstask.service;
 
 import dk.ksm.fstask.common.model.Job;
+import dk.ksm.fstask.queue.IQueue;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class JobServiceResource {
 
-    private List<Job> jobs;
+    private IQueue jobQueue;
 
-    public JobServiceResource() {
-        this.jobs = new ArrayList<Job>();
+    public JobServiceResource(IQueue jobQueue) {
+        this.jobQueue = jobQueue;
     }
+
 
     @GET
     public List<Job> listJobs() {
-        //return Arrays.asList(new Job("crawling","http://google.com","alpha"),new Job("extraction","http://google.com","beta"));
-        return this.jobs;
+        return jobQueue.listJobs();
     }
 
     @POST
-    public void addJob(Job job) {
-        this.jobs.add(job);
+    public Response addJob(Job job) {
+        jobQueue.addJob(job);
+        return Response.status(201).entity("job added").build();
     }
 }
