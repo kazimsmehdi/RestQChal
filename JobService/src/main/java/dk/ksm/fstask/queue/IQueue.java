@@ -8,4 +8,6 @@ public interface IQueue {
     void addJob(Job job);
 
     List<Job> listJobs();
+
+    Job lastestJob();
 }

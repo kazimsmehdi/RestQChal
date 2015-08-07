@@ -1,8 +1,7 @@
 package dk.ksm.fstask.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.dropwizard.Configuration;
-
+import com.yammer.dropwizard.config.Configuration;
 
 public class JobServiceConfiguration extends Configuration {
 

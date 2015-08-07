@@ -19,10 +19,15 @@ public class JobServiceResource {
         this.jobQueue = jobQueue;
     }
 
-
     @GET
     public List<Job> listJobs() {
         return jobQueue.listJobs();
+    }
+
+    @GET
+    @Path("/latestjob")
+    public Job latestJob() {
+        return this.jobQueue.lastestJob();
     }
 
     @POST

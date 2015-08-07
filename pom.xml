@@ -23,8 +23,8 @@
         </plugins>
     </build>
     <modules>
-        <module>JobService</module>
         <module>Common</module>
+        <module>JobService</module>
     </modules>
 
 
