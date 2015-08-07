@@ -2,9 +2,10 @@
 $(function () {
     "use strict";
     var status = $('#status');
+    var input = $('#input');
 
     var socket = $.atmosphere;
-    var request = { url: 'http://localhost:8080/latestjob',
+    var request = { url: 'http://localhost:8080/lastjob',
         contentType : "application/json",
         logLevel : 'debug',
         transport : 'websocket' ,
@@ -25,7 +26,7 @@ $(function () {
             '<td>'+json.jobType+'</td>'+
             '<td>'+json.url+'</td>'+
             '<td>'+json.source+'</td>'+
-            '<td>'+new Date(json.jobCreated)+'</td>'+
+            '<td>'+(new Date(json.jobCreated)).toLocaleString()+'</td>'+
             '</tr>';
             $('#jobs tbody').append(newRow);
 
@@ -38,7 +39,7 @@ $(function () {
     };
 
     request.onClose = function(response) {
-          status.text('Atmosphere connected closing ' + response);
+          status.text('Atmosphere connected close ');
     }
 
     request.onError = function(response) {
@@ -47,6 +48,18 @@ $(function () {
     };
 
     var subSocket = socket.subscribe(request);
+
+    input.keydown(function(e) {
+        if (e.keyCode === 13) {
+            var msg = $(this).val();
+
+            // First message is always the author's name
+
+           // subSocket.push(jQuery.stringifyJSON({ author: msg, message: msg }));
+            subSocket.push();
+            $(this).val('');
+        }
+    });
 
   });
 

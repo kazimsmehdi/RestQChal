@@ -1,5 +1,6 @@
 package dk.ksm.fstask.common.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.DateTime;
 
@@ -42,7 +43,7 @@ public class Job {
     }
 
     @JsonProperty
-    public DateTime getJobCreated() {
-        return jobCreated;
+    public long getJobCreated() {
+        return this.jobCreated.getMillis();
     }
 }

@@ -2,12 +2,26 @@ package dk.ksm.fstask.queue;
 
 public class QueueFactory {
 
-    public static IQueue getQueue(String queueType) {
-        switch (queueType.toLowerCase()) {
-            case "local":
-                return new LocalQueue();
-            default:
-                return null;
+    private static volatile IQueue queue;
+
+    public static IQueue getQueue() {
+        return queue;
+    }
+
+    public static void instantiateQueue(String queueType) {
+        if (null == queue) {
+            synchronized (QueueFactory.class) {
+                if (null == queue) {
+                    switch (queueType.toLowerCase()) {
+                        case "local":
+                            queue = new LocalQueue();
+                            break;
+                        default:
+                            queue = null;
+                            break;
+                    }
+                }
+            }
         }
     }
 }
