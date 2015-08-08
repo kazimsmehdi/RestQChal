@@ -47,7 +47,7 @@ $(function () {
                                     + 'socket or the server is down');
     };
 
-    var subSocket = socket.subscribe(request);
+    this.subSocket = socket.subscribe(request);
 
     input.keydown(function(e) {
         if (e.keyCode === 13) {

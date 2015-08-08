@@ -1,10 +1,12 @@
 package dk.ksm.fstask.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.yammer.dropwizard.config.Configuration;
+import io.dropwizard.Configuration;
+import org.hibernate.validator.constraints.NotEmpty;
+
 
 public class JobServiceConfiguration extends Configuration {
-
+    @NotEmpty
     private String queueType;
 
     @JsonProperty
