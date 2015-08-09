@@ -1,1 +1,5 @@
+server:
+  requestLog:
+    appenders: []
+
 queueType: local

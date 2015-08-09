@@ -1,8 +1,8 @@
 package dk.ksm.fstask.common.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.DateTime;
+
 
 /**
  * Created by ksm on 0006 06-08-15.

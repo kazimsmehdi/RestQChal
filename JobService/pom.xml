@@ -15,7 +15,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <dropwizard.version>0.8.2</dropwizard.version>
+        <jetty.version>9.2.9.v20150224</jetty.version>
     </properties>
 
     <dependencies>
@@ -34,6 +36,16 @@
             <groupId>dk.ksm.fstask</groupId>
             <artifactId>restqchal-common</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-api</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-server</artifactId>
+            <version>${jetty.version}</version>
         </dependency>
     </dependencies>
     <build>
