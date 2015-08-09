@@ -1,4 +1,4 @@
-package dk.ksm.fstask.service.ws;
+package dk.ksm.fstask.service.broadcaster;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;

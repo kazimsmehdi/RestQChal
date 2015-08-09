@@ -8,7 +8,7 @@ var dwws = dwws || {};
 
    function connectSocket() {
       if(socket == null) {
-         socket = new WebSocket("ws://localhost:8080/ws/");
+         socket = new WebSocket("ws://localhost:8080/broadcaster/");
 
          socket.onopen = function() {
             console.log("Connected!");

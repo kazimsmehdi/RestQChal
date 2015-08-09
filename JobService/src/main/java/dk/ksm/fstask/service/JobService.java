@@ -1,12 +1,17 @@
 package dk.ksm.fstask.service;
 
+import dk.ksm.fstask.queue.IQueue;
 import dk.ksm.fstask.queue.QueueFactory;
-import dk.ksm.fstask.service.resources.JobServiceResource;
-import dk.ksm.fstask.service.ws.BroadcastServlet;
+import dk.ksm.fstask.service.broadcaster.BroadcastServlet;
+import dk.ksm.fstask.service.broadcaster.IJobBroadcaster;
+import dk.ksm.fstask.service.broadcaster.JobBroadcaster;
+import dk.ksm.fstask.service.resource.JobServiceResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration.Dynamic;
@@ -14,9 +19,15 @@ import java.util.EnumSet;
 
 
 public class JobService extends Application<JobServiceConfiguration> {
+    private static final Logger log = LoggerFactory.getLogger(JobService.class);
 
-    public static void main(String[] args) throws Exception {
-        new JobService().run(args);
+    public static void main(String[] args) {
+        try {
+            new JobService().run(args);
+        } catch (Exception e) {
+
+            log.error(e.toString());
+        }
     }
 
     @Override
@@ -35,19 +46,24 @@ public class JobService extends Application<JobServiceConfiguration> {
         registerServices(conf, env);
 
         configureCors(env);
+
+        log.info("Service started");
     }
 
 
     private void registerServices(JobServiceConfiguration conf, Environment env) {
         String queueType = conf.getQueueType();
-        QueueFactory.instantiateQueue(queueType);
 
-        final JobServiceResource jobServiceResource = new JobServiceResource(env.getObjectMapper());
+        IQueue queue = QueueFactory.getQueue(queueType);
+
+        IJobBroadcaster jobBroadcaster = new JobBroadcaster(env.getObjectMapper());
+
+        final JobServiceResource jobServiceResource = new JobServiceResource(queue, jobBroadcaster);
 
         env.jersey().register(jobServiceResource);
 
         env.getApplicationContext().getServletHandler().addServletWithMapping(
-                BroadcastServlet.class, "/ws/*"
+                BroadcastServlet.class, "/broadcaster/*"
         );
     }
 
