@@ -15,6 +15,19 @@ public class JobServiceConfiguration extends Configuration {
     @NotEmpty
     private String redisPort;
 
+    @NotEmpty
+    private String redisChannel;
+
+    @JsonProperty
+    public String getRedisChannel() {
+        return redisChannel;
+    }
+
+    @JsonProperty
+    public void setRedisChannel(String redisChannel) {
+        this.redisChannel = redisChannel;
+    }
+
     @JsonProperty
     public String getRedisHost() {
         return redisHost;

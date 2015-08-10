@@ -25,7 +25,14 @@
     <modules>
         <module>Common</module>
         <module>JobService</module>
+        <module>JobWorker</module>
     </modules>
+
+    <properties>
+        <jackson.version>2.6.0</jackson.version>
+        <jedis.version>2.7.3</jedis.version>
+        <testng.version>6.9.6</testng.version>
+    </properties>
 
 
 </project>

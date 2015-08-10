@@ -5,3 +5,4 @@ server:
 queueType: redis
 redisHost: 192.168.10.61
 redisPort: 6379
+redisChannel: JobQueue

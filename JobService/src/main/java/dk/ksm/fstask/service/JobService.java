@@ -1,6 +1,5 @@
 package dk.ksm.fstask.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.ksm.fstask.queue.IQueue;
 import dk.ksm.fstask.queue.QueueFactory;
 import dk.ksm.fstask.service.broadcaster.BroadcastServlet;
@@ -55,10 +54,9 @@ public class JobService extends Application<JobServiceConfiguration> {
     private void registerServices(JobServiceConfiguration conf, Environment env) {
 
         try {
-            ObjectMapper objectMapper = env.getObjectMapper();
-            IQueue queue = QueueFactory.getQueue(conf, objectMapper);
+            IQueue queue = QueueFactory.getQueue(conf);
 
-            IJobBroadcaster jobBroadcaster = new JobBroadcaster(objectMapper);
+            IJobBroadcaster jobBroadcaster = new JobBroadcaster();
 
             final JobServiceResource jobServiceResource = new JobServiceResource(queue, jobBroadcaster);
 

@@ -1,7 +1,6 @@
 package dk.ksm.fstask.queue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.ksm.fstask.common.model.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +14,10 @@ public class RedisQueue implements IQueue {
     private static final Logger log = LoggerFactory.getLogger(RedisQueue.class);
 
     private final Jedis publisher;
-    private final String channelName;
-    private final ObjectMapper objectMapper;
+    private final String channel;
 
-    public RedisQueue(String redisHost, int redisPort, String channelName, ObjectMapper objectMapper) {
-        this.channelName = channelName;
-        this.objectMapper = objectMapper;
+    public RedisQueue(String redisHost, int redisPort, String channel) {
+        this.channel = channel;
 
         final JedisPoolConfig poolConfig = new JedisPoolConfig();
         final JedisPool jedisPool = new JedisPool(poolConfig, redisHost, redisPort, 0);
@@ -30,9 +27,9 @@ public class RedisQueue implements IQueue {
 
     @Override
     public void addJob(Job job) throws JsonProcessingException {
-        String valueAsString = this.objectMapper.writeValueAsString(job);
-
-        this.publisher.publish(this.channelName, valueAsString);
+        String valueAsString = job.toJsonString();
+        //this.publisher.publish(this.channel, valueAsString);
+        this.publisher.rpush(this.channel, valueAsString);
         log.info("Job published to queue");
     }
 
