@@ -25,12 +25,4 @@ public class LocalQueue implements IQueue {
         return this.jobs;
     }
 
-    @Override
-    public Job lastestJob() {
-        if(this.jobs.size()>0) {
-            return this.jobs.get(this.jobs.size() - 1);
-        }
-
-        return  null;
-    }
 }

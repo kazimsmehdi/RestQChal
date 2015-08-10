@@ -18,6 +18,7 @@
 
         <dropwizard.version>0.8.2</dropwizard.version>
         <jetty.version>9.2.9.v20150224</jetty.version>
+        <spring.version>4.2.0.RELEASE</spring.version>
     </properties>
 
     <dependencies>
@@ -52,6 +53,26 @@
             <artifactId>websocket-server</artifactId>
             <version>${jetty.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+
+        <!-- Spring 3 dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

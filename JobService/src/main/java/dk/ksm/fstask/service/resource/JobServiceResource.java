@@ -36,14 +36,20 @@ public class JobServiceResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addJob(Job job) {
-        log.info("job received");
 
-        this.queue.addJob(job);
+        try {
+            log.info("job received");
 
-        log.info("job added to queue");
+            this.queue.addJob(job);
 
-        this.jobBroadcaster.broadcast(job);
+            log.info("job added to queue");
 
-        return Response.status(Response.Status.CREATED).build();
+            this.jobBroadcaster.broadcast(job);
+
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            log.error("Error in converting job to string job:" + job.toString(), e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

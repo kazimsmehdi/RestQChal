@@ -1,5 +1,6 @@
 package dk.ksm.fstask.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.ksm.fstask.queue.IQueue;
 import dk.ksm.fstask.queue.QueueFactory;
 import dk.ksm.fstask.service.broadcaster.BroadcastServlet;
@@ -52,19 +53,23 @@ public class JobService extends Application<JobServiceConfiguration> {
 
 
     private void registerServices(JobServiceConfiguration conf, Environment env) {
-        String queueType = conf.getQueueType();
 
-        IQueue queue = QueueFactory.getQueue(queueType);
+        try {
+            ObjectMapper objectMapper = env.getObjectMapper();
+            IQueue queue = QueueFactory.getQueue(conf, objectMapper);
 
-        IJobBroadcaster jobBroadcaster = new JobBroadcaster(env.getObjectMapper());
+            IJobBroadcaster jobBroadcaster = new JobBroadcaster(objectMapper);
 
-        final JobServiceResource jobServiceResource = new JobServiceResource(queue, jobBroadcaster);
+            final JobServiceResource jobServiceResource = new JobServiceResource(queue, jobBroadcaster);
 
-        env.jersey().register(jobServiceResource);
+            env.jersey().register(jobServiceResource);
 
-        env.getApplicationContext().getServletHandler().addServletWithMapping(
-                BroadcastServlet.class, "/broadcaster/*"
-        );
+            env.getApplicationContext().getServletHandler().addServletWithMapping(
+                    BroadcastServlet.class, "/broadcaster/*"
+            );
+        } catch (Exception e) {
+            log.error("In registering service", e);
+        }
     }
 
     private void configureCors(Environment environment) {
