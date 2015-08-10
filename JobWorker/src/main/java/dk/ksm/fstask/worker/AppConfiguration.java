@@ -8,7 +8,42 @@ public class AppConfiguration {
 
     @NotEmpty
     private int redisPort;
+
+    @NotEmpty
     private String redisChannel;
+
+    @NotEmpty
+    private String mongoHost;
+
+    @NotEmpty
+    private int mongoPort;
+
+    @NotEmpty
+    private String mongoDB;
+
+    public String getMongoHost() {
+        return mongoHost;
+    }
+
+    public void setMongoHost(String mongoHost) {
+        this.mongoHost = mongoHost;
+    }
+
+    public int getMongoPort() {
+        return mongoPort;
+    }
+
+    public void setMongoPort(int mongoPort) {
+        this.mongoPort = mongoPort;
+    }
+
+    public String getMongoDB() {
+        return mongoDB;
+    }
+
+    public void setMongoDB(String mongoDB) {
+        this.mongoDB = mongoDB;
+    }
 
     public String getRedisChannel() {
         return redisChannel;
