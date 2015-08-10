@@ -16,3 +16,4 @@ java -jar restqchal-job-worker-1.0-SNAPSHOT-shaded.jar job-worker.yml
 Html App to get Realtime updates Whats comming on REST service
 update QueueViewer/js/app.js JobService IP
 
+
