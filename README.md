@@ -13,7 +13,7 @@ That subscribe to the Redis Queue and process and save the object to MongoDB
  - Execution
   update JobWorker/src/config/job-worker.yml to the Redis  & Mongo settings
   - java -jar restqchal-job-worker-1.0-SNAPSHOT-shaded.jar job-worker.yml
-# QueueViewer
+ - QueueViewer
 Html App to get Realtime updates Whats comming on REST service
  - Execution
   - update QueueViewer/js/app.js JobService IP
