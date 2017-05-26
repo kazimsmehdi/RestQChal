@@ -1,6 +1,6 @@
 # RestQChal
 
-Its an a solution that uses DropWizard to host REST service with WebSocket connection to give realtime updated of the data comming to the service. That data is then pushed to Redis Queue , that then popped up by workers that after processing submit the results on MongoDB
+Is is a Job Processing Solution that uses DropWizard to host REST service with WebSocket connection to give realtime updated of the data (JOB) comming to the service.  Received Job will then push to Redis Queue, then that job can be pulled by running worker clients to perform the job, after processing worker will submit the results on MongoDB
 
 This solution consist of 3 project.
 - JobService
