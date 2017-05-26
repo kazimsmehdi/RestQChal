@@ -3,22 +3,31 @@ package dk.ksm.fstask.service.resource;
 import dk.ksm.fstask.common.model.Job;
 import dk.ksm.fstask.queue.LocalQueue;
 import dk.ksm.fstask.service.broadcaster.IJobBroadcaster;
-import dk.ksm.fstask.service.mock.JobBroadcasterMock;
+import org.mockito.Mockito;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+
 @Test(groups = "unit")
 public class JobServiceResourceTest {
+    private IJobBroadcaster mockJobBroadcaster;
+
+    @BeforeClass
+    public void init() {
+        this.mockJobBroadcaster = Mockito.mock(IJobBroadcaster.class);
+        doNothing().when(mockJobBroadcaster).broadcast(any(Job.class));
+    }
 
     @Test
     public void testListJobsWhenNoJobAdded() throws Exception {
         // arrange
-        IJobBroadcaster jobBroadcaster = new JobBroadcasterMock(null);
-
-        JobServiceResource jobServiceResource = new JobServiceResource(new LocalQueue(), jobBroadcaster);
+        JobServiceResource jobServiceResource = new JobServiceResource(new LocalQueue(), this.mockJobBroadcaster);
 
         // act
         List<Job> jobs = jobServiceResource.listJobs();
@@ -26,15 +35,11 @@ public class JobServiceResourceTest {
         // assert
         Assert.assertNotNull(jobs);
         Assert.assertEquals(0, jobs.size());
-
     }
-
 
     public void testAddJob() throws Exception {
         // arrange
-        IJobBroadcaster jobBroadcaster = new JobBroadcasterMock(null);
-
-        JobServiceResource jobServiceResource = new JobServiceResource(new LocalQueue(), jobBroadcaster);
+        JobServiceResource jobServiceResource = new JobServiceResource(new LocalQueue(), this.mockJobBroadcaster);
 
         Job job = new Job("crawling", "http://google.com", "zeta");
 
@@ -48,9 +53,8 @@ public class JobServiceResourceTest {
 
     @Test
     public void testListJobsWhenJobAdded() throws Exception {
-        IJobBroadcaster jobBroadcaster = new JobBroadcasterMock(null);
-
-        JobServiceResource jobServiceResource = new JobServiceResource(new LocalQueue(), jobBroadcaster);
+        // arrange
+        JobServiceResource jobServiceResource = new JobServiceResource(new LocalQueue(), this.mockJobBroadcaster);
 
         Job job = new Job("crawling", "http://google.com", "zeta");
         Response response = jobServiceResource.addJob(job);
@@ -61,6 +65,5 @@ public class JobServiceResourceTest {
         // assert
         Assert.assertNotNull(jobs);
         Assert.assertEquals(1, jobs.size());
-
     }
 }
